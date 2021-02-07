@@ -1,0 +1,7 @@
+__pycache__/
+env/
+*.cfg
+*.gz
+
+Assignment1/data here/*
+!Assignment1/data here/dump112.txt
