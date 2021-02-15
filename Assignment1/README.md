@@ -47,7 +47,7 @@ b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x
 
 ### B.1 Password Cracking (10 points)
 
-This challenge for `cipher.py` and `ciphertext` made use of a script written in Python, following the hints given. The script is located in `gen.py`. The main code to build each key is as follows.
+This challenge for `cipher.py` and `ciphertext` made use of a script written in Python, following the hints given. The script is located in `B1_gen.py`. The main code to build each key is as follows.
 
 ``` Python
 
@@ -67,7 +67,7 @@ except UnicodeDecodeError:
 When the script is run, it will output the key and flag.
 
 ``` bash
-$ python gen.py
+$ python B1_gen.py
 accountantblue197600000000000000
 cs2107{pl5_us3_secur3_p4ssw0rd5}
 ```
@@ -75,16 +75,16 @@ cs2107{pl5_us3_secur3_p4ssw0rd5}
 ### B.2 Dear Husband (10 points)
 
 The private keys in `secret.txt` can be cracked with a [discrete logarithm calculator](https://www.alpertron.com.ar/DILOG.HTM).
-Using fast modular exponentiation, the key is retrieved. Due to the large size of the `int`, the division operation should use a bit shift to avoid floating point error. The function can be found in `dh.py`.
+Using fast modular exponentiation, the key is retrieved. Due to the large size of the `int`, the division operation should use a bit shift to avoid floating point error. The function can be found in `B2_dh.py`.
 
 ``` bash
-$ python dh.py
+$ python B2_dh.py
 655926286053512778636180584709925099212
 ```
 
 ### B.3 Custom Protocol (10 Points)
 
-Fairly straightforward shift cipher in `encryption_scheme` with a set random seed. Reversing the shift is all that is needed, seen in `shift.py`.
+Fairly straightforward shift cipher in `encryption_scheme` with a set random seed. Reversing the shift is all that is needed, seen in `B3_shift.py`.
 
 ``` Python
 shifts = []
@@ -172,7 +172,7 @@ Copy-paste the new string and signature into a cookie editor like [EditThisCooki
 
 "AES is very secure so there's no way people can steal my passwords." Not when ECB is being used! The same blocks of plaintext will always be encrypted to the same blocks of ciphertext, [leaving this ECB vulnerable to a Chosen Plaintext Attack](https://michael-myers.github.io/blog/post/enigma2017-broken-encryption-writeup/). 
 
-To get the block size is simple enough - just put enough characters until the output grows once, then twice, then subtract the difference in length. In this case, the block size is 16 bytes. Then, just bruteforce and attack the next byte one-by-one as seen in `aes.py`.
+To get the block size is simple enough - just put enough characters until the output grows once, then twice, then subtract the difference in length. In this case, the block size is 16 bytes. Then, just bruteforce and attack the next byte one-by-one as seen in `B6_ecb.py`.
 
 Initially, I had trouble getting the next character, but I realised that the input was stripped of leading and trailing whitespace. This meant that the newline character `\n` was not processed as an actual input, so it needed to be hard-coded. Here's what the brute-force looked like.
 
@@ -200,7 +200,7 @@ for j in range(33,128):
 `secret` is used to build the prepended string, and eventually found the flag.
 
 ``` bash
-$ python .\aes.py
+$ python .\B6_ecb.py
 coursemology:cs2107:cs2107{pl5_p15_p1s_d0n7_u5e_ec8}
 ```
 
@@ -208,7 +208,7 @@ Good advice.
 
 ### B.7 Password Manager v2 (15 Points)
 
-Another password manager, another vulnerability. This time, it's clearly got to do with the Padding Oracle Attack, since the description talks about padding, and since it was covered in Lecture. Broken using `cbc.py`.
+Another password manager, another vulnerability. This time, it's clearly got to do with the Padding Oracle Attack, since the description talks about padding, and since it was covered in Lecture. Broken using `B7_cbc.py`.
 
 Given to us is an encrypted ciphertext, and we know by attacking the padding, we are able to retrieve the plaintext. The first step is to find the initial number of padding bytes. I check the first 16-byte block by changing some bytes given and realise that the IV is not at the beginning, but instead at the end. The function `getpad()` is then written to check which is the last byte that can be changed before the oracle informs us of a padding error. [An intuitive explanation can be found on this site.](https://eklitzke.org/the-cbc-padding-oracle-problem)
 
@@ -238,7 +238,7 @@ for t in range(256):
 ```
 
 ```bash
-$ python cbc.py
+$ python B7_cbc.py
 b'107:notthefl4g\ngmail:cs2107:notthefl4g\npokemon:cs2107:notthefl4g\nsteam:cs2107:notthefl4g\nfacebook:cs2107:notthefl4g\ngithub:cs2107:cs2107{k33p_Y0uR_3rr0r_m3Ss4G3S_70_y0Urs3LF}\ninstagram:cs2107:notthefl4g\nreddit:cs2107:notthefl4g\ntwitter:cs2107:notthefl4g\x01\x02\x03'
 ```
 
