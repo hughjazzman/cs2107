@@ -1,3 +1,9 @@
+<style>@media print {
+  pre {
+    overflow-x: auto;
+  }
+}</style>
+
 # Assignment 1
 
 ## Section A: Warm Up

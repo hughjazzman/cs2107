@@ -2,6 +2,16 @@ __pycache__/
 env/
 *.cfg
 *.gz
+*.sh
 
-Assignment1/data here/*
-!Assignment1/data here/dump112.txt
+Ass1/data here/*
+!Ass1/data here/dump112.txt
+
+*tempCodeRunnerFile*
+
+venv/
+*.zip
+*.gz
+*bof
+*bofschool
+*MACOSX
